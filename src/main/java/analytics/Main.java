@@ -1,50 +1,98 @@
 package analytics;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.TimeZone;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-
+import data.Loader;
 import model.Post;
+import model.Reason;
+import util.Pair;
 
 public class Main {
-    private static SessionFactory factory;
-
     public static void main(String... args) {
-        // Force Java into UTC so LocalDateTime matches, avoids DST issues
-        TimeZone.setDefault(TimeZone.getTimeZone("Etc/UTC"));
+        // Load Data
+        Map<Integer, Post> postMap = Loader.loadPosts();
+        Map<Integer, Reason> reasonMap = Loader.loadReasons();
+        Pair<Map<Integer, List<Integer>>, Map<Integer, List<Integer>>> pair = Loader.loadPostReasons();
+        Map<Integer, List<Integer>> postReasonsMap = pair.getA();
+        Map<Integer, List<Integer>> reasonPostsMap = pair.getB();
 
-        try {
-            factory = new Configuration().configure().buildSessionFactory();
-        } catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+        System.out.format(" %8s %8s %8s %8s %9s%n", "Min score", "tp", "naa", "fp", "tp %");
+        for (int score = 10; score <= 400; score += 10) {
+            int tp = 0;
+            int fp = 0;
+            int naa = 0;
+            for (Entry<Integer, List<Integer>> entry : postReasonsMap.entrySet()) {
+                Post post = postMap.get(entry.getKey());
+                List<Integer> reasons = entry.getValue();
 
-        listPosts();
-    }
-
-    private static void listPosts() {
-
-        Transaction tx = null;
-
-        try (Session session = factory.openSession()) {
-            tx = session.beginTransaction();
-            List<Post> posts = session.createQuery("FROM Post", Post.class).getResultList();
-            for (Iterator<Post> iterator = posts.iterator(); iterator.hasNext();) {
-                Post post = iterator.next();
-                System.out.println(post.isTp());
+                int totalScore = Scoring.scoreAdditive(reasonMap, reasons);
+                if (totalScore >= score) {
+                    if (post.isTp()) {
+                        tp++;
+                    } else if (post.isNaa()) {
+                        naa++;
+                    } else {
+                        fp++;
+                    }
+                }
             }
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null)
-                tx.rollback();
-            e.printStackTrace();
+            if (tp + fp + naa > 0) {
+                System.out.format("  %8d %8d %8d %8d %8.2f%%%n", score, tp, naa, fp, 100d * tp / (tp + naa + fp));
+            }
+        }
+        System.out.println();
+
+        System.out.format(" %12s %8s %8s %8s %9s%n", "Min score", "tp", "naa", "fp", "tp %");
+        for (double score = 0.8; score <= 0.9999999999; score += (1d - score) / 2d) {
+            int tp = 0;
+            int fp = 0;
+            int naa = 0;
+            for (Entry<Integer, List<Integer>> entry : postReasonsMap.entrySet()) {
+                Post post = postMap.get(entry.getKey());
+                List<Integer> reasons = entry.getValue();
+
+                double totalScore = Scoring.scoreBayes(reasonMap, reasons);
+                if (totalScore >= score) {
+                    if (post.isTp()) {
+                        tp++;
+                    } else if (post.isNaa()) {
+                        naa++;
+                    } else {
+                        fp++;
+                    }
+                }
+            }
+            if (tp + fp + naa > 0) {
+                System.out.format(" %12.10f %8d %8d %8d %8.2f%%%n", score, tp, naa, fp, 100d * tp / (tp + naa + fp));
+            }
+        }
+        System.out.println();
+
+        System.out.format(" %12s %8s %8s %8s %9s%n", "Min score", "tp", "naa", "fp", "tp %");
+        for (double score = 0.8; score <= 0.9999999999; score += (1d - score) / 2d) {
+            int tp = 0;
+            int fp = 0;
+            int naa = 0;
+            for (Entry<Integer, List<Integer>> entry : postReasonsMap.entrySet()) {
+                Post post = postMap.get(entry.getKey());
+                List<Integer> reasons = entry.getValue();
+
+                double totalScore = Scoring.scoreConsensus(reasonMap, reasons);
+                if (totalScore >= score) {
+                    if (post.isTp()) {
+                        tp++;
+                    } else if (post.isNaa()) {
+                        naa++;
+                    } else {
+                        fp++;
+                    }
+                }
+            }
+            if (tp + fp + naa > 0) {
+                System.out.format(" %12.10f %8d %8d %8d %8.2f%%%n", score, tp, naa, fp, 100d * tp / (tp + naa + fp));
+            }
         }
     }
 }

@@ -7,7 +7,7 @@
 	<class name="model.PostReason" table="posts_reasons">
 
 		<meta attribute="class-description">
-			Information about each post
+			Information about posts which map to reasons
 		</meta>
 
 		<composite-id>

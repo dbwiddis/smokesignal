@@ -27,6 +27,7 @@
 		</property>
 
 		<mapping resource="Posts.hbm.xml" />
+		<mapping resource="Reasons.hbm.xml" />
 		<mapping resource="PostsReasons.hbm.xml" />
 
 	</session-factory>

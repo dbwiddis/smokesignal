@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="model.Reason" table="reasons">
+
+		<meta attribute="class-description">
+			Information about each reason
+		</meta>
+
+		<id name="id" type="int" column="id">
+			<generator class="native" />
+		</id>
+
+		<property name="reasonName" column="reason_name"
+			type="string" />
+		<property name="weight" column="weight" type="int" />
+
+	</class>
+</hibernate-mapping>
