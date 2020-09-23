@@ -20,6 +20,15 @@ public class Scoring {
                 totalScore += r.getWeight();
             }
         }
+        if (reasons.contains(3) && reasons.contains(10)) {
+            totalScore -= 97;
+        }
+        if (reasons.contains(90) && reasons.contains(91)) {
+            totalScore -= 84;
+        }
+        if (reasons.contains(20) && reasons.contains(49)) {
+            totalScore -= 70;
+        }
         return totalScore;
     }
 
