@@ -30,7 +30,7 @@ public class Scoring {
             if (r != null && !r.isInactive()) {
                 if (r.getWeight() > 1) {
                     double p = r.getWeight() / 100d;
-                    totalScore = 1d - (1d - totalScore) * (1d - p);
+                    totalScore = p * totalScore / (p * totalScore + (1d - p) * (1d - totalScore));
                 }
             }
         }
@@ -67,17 +67,7 @@ public class Scoring {
                 sum[i] = 0d;
                 for (int j = 0; j < s.length; j++) {
                     d[i][j] = i == j ? 0d : Math.abs(s[i] - s[j]);
-                    sum[i] += 1 / (0.00001 + d[i][j]);
-                }
-                for (int j = 0; j < s.length; j++) {
-                    w[i][j] = d[i][j] / sum[i];
-                }
-            }
-            for (int i = 0; i < s.length; i++) {
-                sum[i] = 0d;
-                for (int j = 0; j < s.length; j++) {
-                    d[i][j] = i == j ? 0d : Math.abs(s[i] - s[j]);
-                    sum[i] += 1 / (0.00001 + d[i][j]);
+                    sum[i] += 1 / (0.001 + d[i][j]);
                 }
                 for (int j = 0; j < s.length; j++) {
                     w[i][j] = d[i][j] / sum[i];

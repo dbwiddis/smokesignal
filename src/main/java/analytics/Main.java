@@ -18,32 +18,37 @@ public class Main {
         Map<Integer, List<Integer>> postReasonsMap = pair.getA();
         Map<Integer, List<Integer>> reasonPostsMap = pair.getB();
 
-        System.out.format(" %8s %8s %8s %8s %9s%n", "Min score", "tp", "naa", "fp", "tp %");
-        for (int score = 10; score <= 400; score += 10) {
-            int tp = 0;
-            int fp = 0;
-            int naa = 0;
-            for (Entry<Integer, List<Integer>> entry : postReasonsMap.entrySet()) {
-                Post post = postMap.get(entry.getKey());
-                List<Integer> reasons = entry.getValue();
+        System.out.format("%5s %8s %8s %8s %8s %9s%n", "rules", "Min score", "tp", "naa", "fp", "tp %");
+        for (int rules = 1; rules <= 5; rules++) {
+            for (int score = 10; score <= 400; score += 10) {
+                int tp = 0;
+                int fp = 0;
+                int naa = 0;
+                for (Entry<Integer, List<Integer>> entry : postReasonsMap.entrySet()) {
+                    Post post = postMap.get(entry.getKey());
+                    List<Integer> reasons = entry.getValue();
+                    if (reasons.size() == rules) {
+                        int totalScore = Scoring.scoreAdditive(reasonMap, reasons);
+                        if (totalScore >= score) {
+                            if (post.isTp()) {
+                                tp++;
+                            } else if (post.isNaa()) {
+                                naa++;
+                            } else {
+                                fp++;
+                            }
 
-                int totalScore = Scoring.scoreAdditive(reasonMap, reasons);
-                if (totalScore >= score) {
-                    if (post.isTp()) {
-                        tp++;
-                    } else if (post.isNaa()) {
-                        naa++;
-                    } else {
-                        fp++;
+                        }
                     }
                 }
-            }
-            if (tp + fp + naa > 0) {
-                System.out.format("  %8d %8d %8d %8d %8.2f%%%n", score, tp, naa, fp, 100d * tp / (tp + naa + fp));
+                if (tp + fp + naa > 0) {
+                    System.out.format("%5d %8d %8d %8d %8d %8.2f%%%n", rules, score, tp, naa, fp,
+                            100d * tp / (tp + naa + fp));
+                }
             }
         }
         System.out.println();
-
+        /*-
         System.out.format(" %12s %8s %8s %8s %9s%n", "Min score", "tp", "naa", "fp", "tp %");
         for (double score = 0.8; score <= 0.9999999999; score += (1d - score) / 2d) {
             int tp = 0;
@@ -52,7 +57,7 @@ public class Main {
             for (Entry<Integer, List<Integer>> entry : postReasonsMap.entrySet()) {
                 Post post = postMap.get(entry.getKey());
                 List<Integer> reasons = entry.getValue();
-
+        
                 double totalScore = Scoring.scoreBayes(reasonMap, reasons);
                 if (totalScore >= score) {
                     if (post.isTp()) {
@@ -69,7 +74,7 @@ public class Main {
             }
         }
         System.out.println();
-
+        
         System.out.format(" %12s %8s %8s %8s %9s%n", "Min score", "tp", "naa", "fp", "tp %");
         for (double score = 0.8; score <= 0.9999999999; score += (1d - score) / 2d) {
             int tp = 0;
@@ -78,7 +83,7 @@ public class Main {
             for (Entry<Integer, List<Integer>> entry : postReasonsMap.entrySet()) {
                 Post post = postMap.get(entry.getKey());
                 List<Integer> reasons = entry.getValue();
-
+        
                 double totalScore = Scoring.scoreConsensus(reasonMap, reasons);
                 if (totalScore >= score) {
                     if (post.isTp()) {
@@ -94,5 +99,6 @@ public class Main {
                 System.out.format(" %12.10f %8d %8d %8d %8.2f%%%n", score, tp, naa, fp, 100d * tp / (tp + naa + fp));
             }
         }
+        */
     }
 }
