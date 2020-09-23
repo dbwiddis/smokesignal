@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="model.Post" table="posts">
+
+		<meta attribute="class-description">
+			Information about each post
+		</meta>
+
+		<id name="id" type="int" column="id">
+			<generator class="native" />
+		</id>
+
+		<property name="updatedAt" column="updated_at" type="timestamp" />
+		<property name="tp" column="is_tp" type="boolean" />
+		<property name="fp" column="is_fp" type="boolean" />
+		<property name="naa" column="is_naa" type="boolean" />
+
+	</class>
+</hibernate-mapping>

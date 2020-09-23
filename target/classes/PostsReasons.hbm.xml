@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="model.PostReason" table="posts_reasons">
+
+		<meta attribute="class-description">
+			Information about each post
+		</meta>
+
+		<composite-id>
+			<key-property name="reasonId" column="reason_id"
+				type="int" />
+			<key-property name="postId" column="post_id" type="int" />
+		</composite-id>
+	</class>
+</hibernate-mapping>
