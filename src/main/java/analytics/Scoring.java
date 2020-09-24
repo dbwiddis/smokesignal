@@ -12,6 +12,38 @@ public class Scoring {
     private Scoring() {
     }
 
+    public static int scoreMergedAdditive(Map<Integer, Reason> reasonMap, List<Integer> reasons) {
+        int score = scoreAdditive(reasonMap, reasons);
+        if (reasons.contains(3) && reasons.contains(10)) {
+            score -= 95;
+        }
+        if (reasons.contains(7) && reasons.contains(80)) {
+            score -= 77;
+        }
+        if (reasons.contains(23) && reasons.contains(52)) {
+            score -= 81;
+        }
+        if (reasons.contains(33) && reasons.contains(145)) {
+            score -= 78;
+        }
+        if (reasons.contains(35) && reasons.contains(102)) {
+            score -= 69;
+        }
+        if (reasons.contains(90) && reasons.contains(91)) {
+            score -= 82;
+        }
+        return score;
+    }
+
+    public static int scoreAdditive(Map<Integer, Reason> reasonMap, List<Integer> reasons, int ri, int rj,
+            int adjustment) {
+        int score = scoreAdditive(reasonMap, reasons);
+        if (reasons.contains(ri) && reasons.contains(rj)) {
+            score -= adjustment;
+        }
+        return score;
+    }
+
     public static int scoreAdditive(Map<Integer, Reason> reasonMap, List<Integer> reasons) {
         int totalScore = 0;
         for (Integer reason : reasons) {
@@ -19,15 +51,6 @@ public class Scoring {
             if (r != null && !r.isInactive()) {
                 totalScore += r.getWeight();
             }
-        }
-        if (reasons.contains(3) && reasons.contains(10)) {
-            totalScore -= 97;
-        }
-        if (reasons.contains(90) && reasons.contains(91)) {
-            totalScore -= 84;
-        }
-        if (reasons.contains(20) && reasons.contains(49)) {
-            totalScore -= 70;
         }
         return totalScore;
     }
@@ -99,4 +122,5 @@ public class Scoring {
         }
         return min + (max - min) / 2;
     }
+
 }
