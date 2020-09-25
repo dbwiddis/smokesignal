@@ -14,12 +14,9 @@
 			<generator class="native" />
 		</id>
 
+		<property name="postId" column="post_id" type="int" />
 		<property name="createdAt" column="created_at"
 			type="timestamp" />
 		<property name="auto" column="is_auto" type="boolean" />
-
-		<many-to-one name="post" class="model.Post"
-			column="post_id" unique="true" not-null="true" cascade="all" />
-
 	</class>
 </hibernate-mapping>

@@ -8,16 +8,16 @@ public class Flag implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private Post post;
+    private int postId;
     private Timestamp createdAt;
     private boolean auto;
 
     public Flag() {
     }
 
-    public Flag(int id, Post post, Timestamp createdAt, boolean auto) {
+    public Flag(int id, int postId, Timestamp createdAt, boolean auto) {
         this.id = id;
-        this.post = post;
+        this.postId = postId;
         this.createdAt = createdAt;
         this.auto = auto;
     }
@@ -26,8 +26,8 @@ public class Flag implements Serializable {
         return id;
     }
 
-    public Post getPost() {
-        return post;
+    public int getPostId() {
+        return postId;
     }
 
     public Timestamp getCreatedAt() {
@@ -42,8 +42,8 @@ public class Flag implements Serializable {
         this.id = id;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     public void setCreatedAt(Timestamp createdAt) {
