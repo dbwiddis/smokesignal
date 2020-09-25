@@ -9,22 +9,19 @@ import java.util.stream.Collectors;
 import data.Loader;
 import model.Post;
 import model.Reason;
-import util.Pair;
 
-public class Main {
+public class ReasonAnalysis {
     public static void main(String... args) {
         // Load Data
         Map<Integer, Post> postMap = Loader.loadPosts();
         Map<Integer, Reason> reasonMap = Loader.loadReasons();
-        Pair<Map<Integer, List<Integer>>, Map<Integer, List<Integer>>> pair = Loader.loadPostReasons();
-        Map<Integer, List<Integer>> postReasonsMap = pair.getA();
-        Map<Integer, List<Integer>> reasonPostsMap = pair.getB();
+        Map<Integer, List<Integer>> postReasonsMap = Loader.loadPostReasons();
 
         assessMultiMergedScoring(postMap, reasonMap, postReasonsMap);
 //        assessMergedScoring(postMap, reasonMap, postReasonsMap);
 //        assessScoring(postMap, reasonMap, postReasonsMap);
 //        assessBayes(postMap, reasonMap, postReasonsMap);
-//        assessConsensus(postMap, reasonMap, postReasonsMap);            
+//        assessConsensus(postMap, reasonMap, postReasonsMap);
 //        assessOverlap(reasonMap, reasonPostsMap);
     }
 

@@ -29,6 +29,7 @@
 		<mapping resource="Posts.hbm.xml" />
 		<mapping resource="Reasons.hbm.xml" />
 		<mapping resource="PostsReasons.hbm.xml" />
+		<mapping resource="Flags.hbm.xml" />
 
 	</session-factory>
 </hibernate-configuration>

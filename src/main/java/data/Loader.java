@@ -12,10 +12,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import model.Flag;
 import model.Post;
 import model.PostReason;
 import model.Reason;
-import util.Pair;
 
 public class Loader {
     private static final SessionFactory factory;
@@ -77,7 +77,7 @@ public class Loader {
         return reasonMap;
     }
 
-    public static Pair<Map<Integer, List<Integer>>, Map<Integer, List<Integer>>> loadPostReasons() {
+    public static Map<Integer, List<Integer>> loadPostReasons() {
         Map<Integer, List<Integer>> postReasonsMap = new HashMap<>();
         Map<Integer, List<Integer>> reasonPostsMap = new HashMap<>();
 
@@ -98,13 +98,35 @@ public class Loader {
             }
             tx.commit();
             System.out.println("Successfully loaded " + postReasonsMap.keySet().size() + " posts with reasons.");
-            System.out.println("Successfully loaded " + reasonPostsMap.keySet().size() + " reasons with posts.");
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
             }
             e.printStackTrace();
         }
-        return new Pair<>(postReasonsMap, reasonPostsMap);
+        return postReasonsMap;
+    }
+
+    public static Map<Integer, Flag> loadFlags() {
+        Map<Integer, Flag> flagMap = new HashMap<>();
+
+        Transaction tx = null;
+        try (Session session = factory.openSession()) {
+            tx = session.beginTransaction();
+            List<Flag> flags = session.createQuery("FROM Flag", Flag.class).getResultList();
+            for (Iterator<Flag> iterator = flags.iterator(); iterator.hasNext();) {
+                Flag flag = iterator.next();
+                flagMap.put(flag.getId(), flag);
+            }
+            tx.commit();
+            System.out.println("Successfully loaded " + flagMap.keySet().size() + " Flags.");
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return flagMap;
     }
 }

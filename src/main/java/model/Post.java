@@ -8,7 +8,7 @@ public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private Timestamp updatedAt;
+    private Timestamp createdAt;
     private boolean tp;
     private boolean fp;
     private boolean naa;
@@ -16,9 +16,9 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(int id, Timestamp updatedAt, boolean tp, boolean fp, boolean naa) {
+    public Post(int id, Timestamp createdAt, boolean tp, boolean fp, boolean naa) {
         this.id = id;
-        this.updatedAt = updatedAt;
+        this.createdAt = createdAt;
         this.tp = tp;
         this.fp = fp;
         this.naa = naa;
@@ -28,8 +28,8 @@ public class Post implements Serializable {
         return id;
     }
 
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
     public boolean isTp() {
@@ -48,8 +48,8 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setTp(boolean tp) {

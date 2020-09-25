@@ -4,20 +4,22 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="model.Post" table="posts">
+	<class name="model.Flag" table="flag_logs">
 
 		<meta attribute="class-description">
-			Information about each post
+			Information about each flag
 		</meta>
 
 		<id name="id" type="int" column="id">
 			<generator class="native" />
 		</id>
 
-		<property name="createdAt" column="created_at" type="timestamp" />
-		<property name="tp" column="is_tp" type="boolean" />
-		<property name="fp" column="is_fp" type="boolean" />
-		<property name="naa" column="is_naa" type="boolean" />
+		<property name="createdAt" column="created_at"
+			type="timestamp" />
+		<property name="auto" column="is_auto" type="boolean" />
+
+		<many-to-one name="post" class="model.Post"
+			column="post_id" unique="true" not-null="true" cascade="all" />
 
 	</class>
 </hibernate-mapping>
