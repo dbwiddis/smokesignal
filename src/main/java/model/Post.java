@@ -12,16 +12,18 @@ public class Post implements Serializable {
     private boolean tp;
     private boolean fp;
     private boolean naa;
+    private Integer siteId;
 
     public Post() {
     }
 
-    public Post(int id, Timestamp createdAt, boolean tp, boolean fp, boolean naa) {
+    public Post(int id, Timestamp createdAt, boolean tp, boolean fp, boolean naa, Integer siteId) {
         this.id = id;
         this.createdAt = createdAt;
         this.tp = tp;
         this.fp = fp;
         this.naa = naa;
+        this.siteId = siteId;
     }
 
     public int getId() {
@@ -44,6 +46,10 @@ public class Post implements Serializable {
         return naa;
     }
 
+    public Integer getSiteId() {
+        return siteId;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -62,5 +68,9 @@ public class Post implements Serializable {
 
     public void setNaa(boolean naa) {
         this.naa = naa;
+    }
+
+    public void setSiteId(Integer siteId) {
+        this.siteId = siteId;
     }
 }

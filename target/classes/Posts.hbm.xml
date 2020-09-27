@@ -18,6 +18,7 @@
 		<property name="tp" column="is_tp" type="boolean" />
 		<property name="fp" column="is_fp" type="boolean" />
 		<property name="naa" column="is_naa" type="boolean" />
+		<property name="siteId" column="site_id" type="int"/>
 
 	</class>
 </hibernate-mapping>

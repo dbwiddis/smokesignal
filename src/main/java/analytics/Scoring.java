@@ -55,6 +55,18 @@ public class Scoring {
         return totalScore;
     }
 
+    public static int scorePenalty(Map<Integer, Reason> reasonMap, List<Integer> reasons) {
+        int totalScore = 0;
+        for (Integer reason : reasons) {
+            Reason r = reasonMap.get(reason);
+            if (r != null && !r.isInactive()) {
+                int diff = r.getWeight() * r.getWeight() / 100;
+                totalScore += diff;
+            }
+        }
+        return totalScore;
+    }
+
     public static double scoreBayes(Map<Integer, Reason> reasonMap, List<Integer> reasons) {
         double totalScore = 0.75;
         for (Integer reason : reasons) {
