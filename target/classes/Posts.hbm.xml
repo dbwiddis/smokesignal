@@ -14,11 +14,14 @@
 			<generator class="native" />
 		</id>
 
-		<property name="createdAt" column="created_at" type="timestamp" />
+		<property name="createdAt" column="created_at"
+			type="timestamp" />
 		<property name="tp" column="is_tp" type="boolean" />
 		<property name="fp" column="is_fp" type="boolean" />
 		<property name="naa" column="is_naa" type="boolean" />
-		<property name="siteId" column="site_id" type="int"/>
+		<property name="siteId" column="site_id" type="int" />
+		<property name="title" column="title" type="string" />
+		<property name="body" column="markdown" type="string" />
 
 	</class>
 </hibernate-mapping>

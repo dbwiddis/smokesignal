@@ -16,6 +16,7 @@ public class CsvGenerator {
     private static final String SITEDATA = "postdata.csv";
 
     public static void main(String... args) {
+
         // Load Data
         Map<Integer, Post> postMap = Loader.loadPosts();
         Map<Integer, Reason> reasonMap = Loader.loadReasons();
